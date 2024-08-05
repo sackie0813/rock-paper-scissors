@@ -1,7 +1,7 @@
 let playerScore = 0;
 let computerScore = 0;
 
-function getComputerChoice () {
+function getComputerChoice () { //takes computer input using a random function
     let choice = Math.floor (Math.random()*3) + 1;
     if (choice === 1) {
         return "rock";
@@ -12,12 +12,12 @@ function getComputerChoice () {
     }
 }
 
-function getPlayerChoice() {
+function getPlayerChoice() { // invalid inputs are ignored, gets player inputs
     let choice = prompt("Rock, paper, or scissors?").toLowerCase();
     return choice;
 }
 
-function playRound (playerChoice , computerChoice) {
+function playRound (playerChoice , computerChoice) { // Rock paper scissors logic
     if (playerChoice === computerChoice) {
         return "Draw! Neither player has been given a point";
     } else if (playerChoice === "rock" && computerChoice === "scissors") {
@@ -41,7 +41,7 @@ function playRound (playerChoice , computerChoice) {
     }
 }
 
-while (playerScore <= 5 || computerScore < 5) {
+while (playerScore <= 5 || computerScore < 5) { //Logic loops until player/computer reaches 5
     console.log(playRound(getPlayerChoice() , getComputerChoice()));
     if (playerScore === 5) {
         console.log("Player wins the war! 5 points");
