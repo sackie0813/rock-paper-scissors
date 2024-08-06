@@ -12,45 +12,72 @@ function getComputerChoice () { //takes computer input using a random function
     }
 }
 
-function getPlayerChoice() { // invalid inputs are ignored, gets player inputs
-    let choice = prompt("Rock, paper, or scissors?").toLowerCase();
-    return choice;
-}
-
-function playRound (playerChoice , computerChoice) { // Rock paper scissors logic
-    if (playerChoice === computerChoice) {
-        return "Draw! Neither player has been given a point";
-    } else if (playerChoice === "rock" && computerChoice === "scissors") {
-        playerScore++;
-        return "Player Wins! Player has been given a point";
-    } else if (playerChoice === "rock" && computerChoice === "paper") {
-        computerScore++;
-        return "Computer Wins! Computer has been given a point";
-    } else if (playerChoice === "scissors" && computerChoice == "rock") {
-        computerScore++;
-        return "Computer Wins! Computer has been given a point";
-    } else if (playerChoice === "scissors" && computerChoice == "paper") {
-        playerScore++;
-        return "Player Wins! Player has been given a point";
-    } else if (playerChoice === "paper" && computerChoice == "rock") {
-        playerScore++;
-        return "Player Wins! Player has been given a point";
-    } else if (playerChoice === "paper" && computerChoice == "scissors") {
-        computerScore++;
-        return "Computer Wins! Computer has been given a point";
-    }
-}
-
-while (playerScore <= 5 || computerScore < 5) { //Logic loops until player/computer reaches 5
-    console.log(playRound(getPlayerChoice() , getComputerChoice()));
+function playRound (playerChoice, computerChoice) { // Game Logic +_ Score tracking updates
+    // Game loop
     if (playerScore === 5) {
-        console.log("Player wins the war! 5 points");
-        playerScore, computerScore ===0;
-        break;
-
-    } else if (computerScore === 5) {
-        console.log ("Computer wins the war! 5 points");
-        playerScore, computerScore === 0;
-        break;
+        currentScore.textContent = "Player has won the war!";
+        playerScore = 0;
+        computerScore = 0;
     }
-}
+    else if (computerScore === 5) {
+        currentScore.textContent = "Computer has won the war!";
+        playerScore = 0;
+        computerScore = 0;
+    }
+
+//Game Logic + Score Tracking
+    else if (computerChoice === playerChoice) {
+        currentScore.textContent = "Draw! " + "Your Score:" + playerScore + "\n" + "Computer Score: " + computerScore;
+        return console.log("Draw!");
+        
+    } else if ( (playerChoice === "rock" && computerChoice === "scissors") ||
+                (playerChoice === "paper" && computerChoice === "rock") || 
+                (playerChoice === "scissors" && computerChoice === "paper")) {
+                    playerScore++;
+                    currentScore.textContent = "You Win! " + "Your Score: " + playerScore + "\n" + "Computer Score: " + computerScore;
+                    return console.log("Player Wins!");
+    } else {
+        computerScore++;
+        currentScore.textContent = "You Lose! " + "Your Score: " + playerScore + "\n" + "Computer Score: " + computerScore;
+        return console.log("Computer Wins!");
+    }
+} 
+
+
+// Ui logic using DOM
+const playRockButton = document.createElement("button");
+playRockButton.textContent = "Rock";
+playRockButton.style.padding = "32px";
+playRockButton.addEventListener("click" , function() {
+    playRound("rock" , getComputerChoice());
+});
+document.body.appendChild(playRockButton);
+
+const playScissorsButton = document.createElement("button");
+playScissorsButton.textContent = "Scissors";
+playScissorsButton.style.padding = "32px";
+playScissorsButton.addEventListener("click" , function() {
+    playRound ("scissors" , getComputerChoice());
+});
+document.body.appendChild(playScissorsButton);
+
+const playPaperButton = document.createElement("button");
+playPaperButton.textContent = "Paper";
+playPaperButton.style.padding = "32px";
+playPaperButton.addEventListener("click" , function() {
+    playRound("paper" , getComputerChoice());
+});
+document.body.appendChild(playPaperButton);
+
+const divContainer = document.createElement("div");
+divContainer.style.border = "solid black";
+divContainer.style.padding = ("32px");
+document.body.appendChild(divContainer);
+
+const currentScore = document.createElement("p");
+currentScore.textContent = "Click a button to play rock-paper-scissors! First to 5 wins!";
+divContainer.appendChild(currentScore);
+
+
+
+
